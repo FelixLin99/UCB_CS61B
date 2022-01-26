@@ -1,4 +1,4 @@
-1. System.out.print does not include an automatic newline but System.out.print
+1. System.out.print does not include an automatic newline but System.out.print does
 
 2. Two ways to initialize array:
     int[] numbers = new int[]{4, 7, 10};
@@ -6,3 +6,9 @@
     numbers[0] = 4
     numbers[1] = 7
     numbers[2] = 10;
+
+3. Enhanced for loop:
+    String[] a = {"cat", "dog", "horse"};
+    for (String item : a) {
+        system.out.println(item);
+    }

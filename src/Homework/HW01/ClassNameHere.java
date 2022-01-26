@@ -23,8 +23,18 @@ public class ClassNameHere {
         return maximum;
     }
 
+    public static int forMax(int[] m) {
+        int maximum = m[0];
+        for (int index=1; index<m.length; index++){
+            if (m[index] > maximum){
+                maximum = m[index];
+            }
+        }
+        return maximum;
+    }
+
     public static void main(String[] args) {
         int[] numbers = new int[]{9, 2, 15, 2, 22, 10, 6};
-        System.out.println(max(numbers));
+        System.out.println(forMax(numbers));
     }
 }
