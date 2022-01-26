@@ -1,0 +1,8 @@
+1. System.out.print does not include an automatic newline but System.out.print
+
+2. Two ways to initialize array:
+    int[] numbers = new int[]{4, 7, 10};
+    int[] numbers = new int[3]
+    numbers[0] = 4
+    numbers[1] = 7
+    numbers[2] = 10;
