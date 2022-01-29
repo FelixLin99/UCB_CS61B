@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Shuhui Lin
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -114,12 +114,77 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        this.board.setViewingPerspective(side);
+        for(int colIdx=0; colIdx<this.board.size(); colIdx += 1){
+            changed = mergeCol(colIdx, changed);
+        }
+        board.setViewingPerspective(Side.NORTH);
+
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
     }
+
+    private boolean mergeCol(int colIdx, boolean changed){
+        /** This method move and merge the tiles in a col (with the assumption that ViewingPerspective is NOTRH).
+         *  While moving, it automatically update this.score if merging successfully
+         *  and set @changed to true if any tiles move.
+         */
+        for (int rowIdx=this.board.size()-1; rowIdx>0; rowIdx--){
+            Tile headTile,tailTile;
+            int head, tail;
+
+            //find the head tile, which is the first not null tile in a col from [rowIdx, this.board.size()-1]
+            head = findTheFirstNotNullTile(rowIdx, colIdx);
+            if (head == -1){
+                return changed;
+            }
+            headTile = this.board.tile(colIdx, head);
+
+            // move the head tile to the current rowIdx place(but if head==rowIdx, then nothing happends here)
+            if (head < rowIdx){
+                this.board.move(colIdx, rowIdx, headTile);
+                changed = true;
+            }
+
+            //find the tail tile, which is the second not null tile in a col from [rowIdx, this.board.size()-1]
+            tail = findTheFirstNotNullTile(head-1, colIdx);
+
+            // if there is no tail tile
+            if (tail == -1){
+                return changed;
+            }
+            tailTile = this.board.tile(colIdx, tail);
+
+            // move the tail tile, and there are two conditions: tailTile.value == headTile.value or tailTile.value != headTile.value
+            if (headTile.value() == tailTile.value()){
+                this.board.move(colIdx, rowIdx, tailTile);
+                changed = true;
+                this.score += 2*headTile.value();
+            }
+            else {
+                this.board.move(colIdx, rowIdx-1, tailTile);
+                changed = true;
+            }
+        }
+        return changed;
+    }
+
+    private int findTheFirstNotNullTile(int currentLoc, int colIdx){
+        /**
+         * return -1 if all tiles are null from currentLoc to the end;
+         */
+        for (; currentLoc>=0; currentLoc--){
+            if (this.board.tile(colIdx, currentLoc) != null){
+                return currentLoc;
+            }
+        }
+        return -1;
+    }
+
+
 
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
@@ -174,7 +239,34 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        /*
+        1. There is at least one empty space on the board.
+         */
+        if (emptySpaceExists(b) == true){
+            return true;
+        }
+        /*
+        2. There are two adjacent tiles with the same value.
+         */
+        for(int idx=0; idx<b.size(); idx++){
+            Tile currentTile, nextTile;
+            // in a column
+            for (int row_idx=0; row_idx<b.size()-1; row_idx++){
+                currentTile = b.tile(idx, row_idx);
+                nextTile = b.tile(idx, row_idx+1);
+                if (currentTile!=null && nextTile!=null && currentTile.value()==nextTile.value()){
+                    return true;
+                }
+            }
+            // in a row
+            for (int col_idx=0; col_idx<b.size()-1; col_idx++){
+                currentTile = b.tile(col_idx, idx);
+                nextTile = b.tile(col_idx+1, idx);
+                if (currentTile!=null && nextTile!=null && currentTile.value()==nextTile.value()){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

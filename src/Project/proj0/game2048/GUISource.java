@@ -38,7 +38,7 @@ class GUISource implements InputSource {
             case "↑" :
                 command = "Up";
                 break;
-            case "→" :
+            case "you" :
                 command = "Right";
                 break;
             case "↓" :
@@ -50,6 +50,22 @@ class GUISource implements InputSource {
             default :
                 break;
         }
+//        switch (command) {
+//            case "↑" :
+//                command = "Up";
+//                break;
+//            case "→" :
+//                command = "Right";
+//                break;
+//            case "↓" :
+//                command = "Down";
+//                break;
+//            case "←" :
+//                command = "Left";
+//                break;
+//            default :
+//                break;
+//        }
 
         String logLine = String.format("K %s%n", command);
 
