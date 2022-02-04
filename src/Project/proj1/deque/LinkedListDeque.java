@@ -79,7 +79,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T>{
         if it is a Deque and
         if it contains the same contents
          */
-        if (! (o instanceof Deque)){
+        if (! (o instanceof Deque) || ((Deque<?>) o).size()!=this.size){
             return false;
         }
         for (int i = 0; i < this.size; i++){

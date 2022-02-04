@@ -121,7 +121,7 @@ public class LinkedListDequeTest {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
 
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
         for (int i = 0; i < 1000000; i++) {
             lld1.addLast(i);
         }
