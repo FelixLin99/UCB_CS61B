@@ -90,10 +90,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
     @Override
     public T removeFirst() {
         if (isEmpty()){
-            throw new RuntimeException("cannot remove item from the empty array");
+            return null;
+            // throw new RuntimeException("cannot remove item from the empty array");
         }
         if (this.size == 1){
-            T returnItem = this.array[0];
+            T returnItem = this.array[this.headLoc];
             this.array[0] = null;
             this.size = 0;
             this.headLoc = this.array.length+1;
@@ -113,10 +114,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
     @Override
     public T removeLast() {
         if (isEmpty()){
-            throw new RuntimeException("cannot remove item from the empty array");
+            return null;
+            // throw new RuntimeException("cannot remove item from the empty array");
         }
         if (this.size == 1){
-            T returnItem = this.array[0];
+            T returnItem = this.array[this.headLoc];
             this.array[0] = null;
             this.size = 0;
             this.headLoc = this.array.length+1;
@@ -140,7 +142,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
             return null;
         }
         if (index >= this.size || index < 0){
-            throw new ArrayIndexOutOfBoundsException();
+            return null;
+            //throw new ArrayIndexOutOfBoundsException();
         }
         int loc = (this.headLoc + index) % this.array.length;
         return this.array[loc];

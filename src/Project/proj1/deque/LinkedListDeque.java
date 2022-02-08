@@ -96,12 +96,18 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T>{
         Prints the items in the deque from first to last, separated by a space.
         Once all the items have been printed, print out a new line.
          */
+        if (isEmpty()){
+            System.out.println();
+            return ;
+        }
         Node<T> currNode = new Node<>();
         currNode = this.sentinelNode;
-        for (int i = 0; i < this.size; i++){
+        for (int i = 0; i < this.size-1; i++){
             currNode = currNode.prev;
             System.out.print(currNode.item.toString() + " ");
         }
+        currNode = currNode.prev;
+        System.out.print(currNode.item.toString());
         System.out.println();
         currNode = currNode.prev;
     }
@@ -179,12 +185,12 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T>{
         if (index >= size || index < 0){
             return null;
         }
+        this.sentinelNode = this.sentinelNode.prev;
         if (index == 0){
             T returnItem = this.sentinelNode.item;
             findSentinel();
             return returnItem;
         }
-        this.sentinelNode = this.sentinelNode.prev;
         return getRecursive(index - 1);
     }
 
