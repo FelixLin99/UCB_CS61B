@@ -1,0 +1,3 @@
+Hi there, I accidently set my package as Lab.lab6.capers, which means you have to test my program at directory ".../UCB_CS61B/src" if using terminal.
+Complie command:
+    java Lab.lab6.capers.Main story "Yeah baby!"
