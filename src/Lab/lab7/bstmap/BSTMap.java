@@ -88,16 +88,21 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return (root == null)? 0 : root.size;
     }
 
+    private int size(BSTNode node){
+        return (node == null)? 0 : node.size;
+    }
+
     @Override
     public void put(K key, V value) {
         if (key == null){
             throw new IllegalArgumentException("key should not be null.");
         }
-        if (value == null){
-            remove(key);
-            return;
+        if (root == null){
+            root = new BSTNode(key, value, 1);
         }
-        put(root, key, value);
+        else{
+            put(root, key, value);
+        }
     }
 
     private void put(BSTNode node, K key, V value){
@@ -107,8 +112,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
                 put(node.left, key,value);
             }
             else{
-                node.left = new BSTNode(key, value, 0);
-                root.size++;
+                node.left = new BSTNode(key, value, 1);
             }
         }
         else if (cmp > 0){
@@ -116,50 +120,41 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
                 put(node.right, key,value);
             }
             else{
-                node.right = new BSTNode(key, value, 0);
+                node.right = new BSTNode(key, value, 1);
             }
         }
         else{
             node.value = value;
         }
+        node.size = size(node.left) + size(node.right) + 1;
     }
 
     @Override
 
     public Set<K> keySet() {
+        if (size() == 0){
+            return null;
+        }
         return keySet(root);
     }
 
     private Set<K> keySet(BSTNode node){
         if (node == null){
-            return null;
+            return new HashSet<>();
         }
-        HashSet<K> out = new HashSet<>();
-        out.add(node.key);
-        out.addAll(keySet(node.left));
-        out.addAll(keySet(node.right));
-        return out;
-    }
-
-    /* Breadth First Search */
-    private Set<K> keySetBFS(){
-
-        return null;
-    }
-    /* Depth First Search */
-    private Set<K> keySetDFS(){
-
-        return null;
+        Set<K> output = keySet(node.left);
+        output.addAll(keySet(node.right));
+        output.add(node.key);
+        return output;
     }
 
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException("");
-//        BSTNode deletedNode = delete(key);
-//        return (deletedNode == null)? null: deletedNode.value;
+        BSTNode deletedNode = delete(key);
+        return (deletedNode == null)? null: deletedNode.value;
     }
 
-    /* Delete the node which node.key == key, and return it */
+    /* Delete the node when node.key == key, and return it */
     private BSTNode delete(K key){
         if (key == null){
             throw new IllegalArgumentException("key should not be null.");
@@ -171,7 +166,6 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             return null;
         }
         return deletedNodes.get(0);
-
     }
 
     /* A helper method of private BSTNode delete(K key){}. Return the root but not the deleted node.  */
@@ -183,44 +177,76 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         int cmp = key.compareTo(root.key);
         if (cmp < 0){
             root.left = delete(root.left, key, deletedNodes);
+            root.size = size(root.left) + size(root.right) + 1;
         }
         else if (cmp > 0){
             root.right = delete(root.right, key, deletedNodes);
+            root.size = size(root.left) + size(root.right) + 1;
         }
-        else{
-            if (root.right == null){
+        else {
+            if (root.right == null) {
                 BSTNode tmp = root.left;
                 root.left = null;
+                root.size = 1;
                 deletedNodes.set(0, root);
                 return tmp;
             }
-            if (root.left == null){
+            if (root.left == null) {
                 BSTNode tmp = root.right;
                 root.right = null;
+                root.size = 1;
                 deletedNodes.set(0, root);
                 return tmp;
             }
+            // fing the min node in the right branch
+            // delete min node
+            //minNode.right = root.right; minNode.left = root.left
+            //minNode.size = size(minNode.left) + size(minNode.right) + 1
+            //return minNode
+            if (root.right.left == null) {
+                BSTNode minNode = root.right;
+                minNode.left = root.left;
+                minNode.size = size(minNode.left) + size(minNode.right) + 1;
+                root.right = null;
+                root.left = null;
+                root.size = 1;
+                deletedNodes.set(0, root);
+                return minNode;
+            } else {
+                BSTNode minNode = removeMin(root.right);
+                minNode.left = root.left;
+                minNode.right = root.right;
+                minNode.size = size(minNode.left) + size(minNode.right) + 1;
 
-            BSTNode tmp = root;
-            BSTNode x = removeMin(root.right);
-
-
-
+                root.right = null;
+                root.left = null;
+                root.size = 1;
+                deletedNodes.set(0, root);
+                return minNode;
+            }
         }
-        return null;
+        return root;
     }
 
-
+    /* node must have a non null left branch */
     private BSTNode removeMin(BSTNode node){
-        if (node == null || node.left == null){
-            return node;
-        }
-        BSTNode tmpNode = node;
-        while(tmpNode.left != null){
-            tmpNode = tmpNode.left;
+        if (node == null){
+            return null;
         }
 
-        return null;
+        BSTNode tmpNode = node;
+        tmpNode.size -= 1;
+        while(tmpNode.left.left != null){
+            tmpNode = tmpNode.left;
+            tmpNode.size -= 1;
+        }
+        // Non minNode is the tmpNode.left
+        BSTNode minNode = tmpNode.left;
+        tmpNode.left = minNode.right;
+        minNode.right = null;
+        minNode.size = 1;
+
+        return minNode;
     }
 
     @Override
