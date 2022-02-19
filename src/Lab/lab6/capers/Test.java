@@ -12,7 +12,5 @@ import java.io.IOException;
  */
 public class Test {
     public static void main(String[] args) throws IOException {
-        CapersRepository.setupPersistence();
-        CapersRepository.writeStory("Nice to meet you");
     }
 }
