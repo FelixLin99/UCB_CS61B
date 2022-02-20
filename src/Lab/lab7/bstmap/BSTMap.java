@@ -138,6 +138,35 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return keySet(root);
     }
 
+    public ArrayList<K> keyArray(){
+        return keyArrayByLOT(root);
+    }
+
+    /* level order traversal */
+    /* Use a queue to store nodes */
+    private ArrayList<K> keyArrayByLOT(BSTNode node){
+        if (node == null){
+            return null;
+        }
+
+        ArrayList<K> out = new ArrayList<>(node.size);
+        LinkedList<BSTNode> llst = new LinkedList<>();
+        llst.addLast(node);
+        int idx = 0;
+        while(!llst.isEmpty()){
+            BSTNode currNode = llst.removeFirst();
+            out.add(currNode.key);
+            if (currNode.left != null){
+                llst.addLast(currNode.left);
+            }
+            if (currNode.right != null){
+                llst.addLast(currNode.right);
+            }
+        }
+        return out;
+    }
+
+    /* post-order traversal */
     private Set<K> keySet(BSTNode node){
         if (node == null){
             return new HashSet<>();

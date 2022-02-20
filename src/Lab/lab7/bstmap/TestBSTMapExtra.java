@@ -1,5 +1,6 @@
 package Lab.lab7.bstmap;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import static org.junit.Assert.*;
@@ -23,6 +24,18 @@ public class TestBSTMapExtra {
         Set<String> keySet = b.keySet();
         assertTrue(values.containsAll(keySet));
         assertTrue(keySet.containsAll(values));
+    }
+
+    @Test
+    public void sanityKeyArrayTest(){
+        BSTMap<Integer, String> b = new BSTMap<>();
+        b.put(4,"1");
+        b.put(2, "2");
+        b.put(8, "3");
+        b.put(1, "4");
+        b.put(3, "5");
+        ArrayList<Integer> integers = b.keyArray();
+        assertEquals("[4, 2, 8, 1, 3]", integers.toString());
     }
 
     /* Remove Test
