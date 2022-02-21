@@ -107,6 +107,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public void clear() {
         buckets = createTable(this.initialSize);
+        items = 0;
     }
 
     @Override
@@ -150,6 +151,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             if (key.equals(node.key)){
                 buckets[idx].remove(node);
                 items--;
+                break;
             }
         }
         buckets[idx].add(createNode(key, value));
@@ -182,6 +184,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             if (key.equals(item.key)){
                 V tmp = item.value;
                 buckets[idx].remove(item);
+                items--;
                 return tmp;
             }
         }
@@ -197,6 +200,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         for(Node item : buckets[idx]){
             if (key.equals(item.key) && value.equals(item.value)){
                 buckets[idx].remove(item);
+                items--;
                 return value;
             }
         }
@@ -217,6 +221,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     private void resize(){
         Collection<Node>[] oldBuckets = this.buckets;
+        int backup = items;
         this.buckets = createTable(oldBuckets.length * 2);
         for (int idx = 0; idx < oldBuckets.length; idx++){
             if (oldBuckets[idx] != null){
@@ -225,6 +230,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
                 }
             }
         }
+        this.items = backup;
     }
 
 
