@@ -1,16 +1,11 @@
 package Lab.lab8.speed;
 
+import Lab.lab8.hashmap.*;
 import edu.princeton.cs.algs4.Stopwatch;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import hashmap.Map61B;
-import hashmap.MyHashMapALBuckets;
-import hashmap.MyHashMapLLBuckets;
-import hashmap.MyHashMapTSBuckets;
-import hashmap.MyHashMapHSBuckets;
-import hashmap.MyHashMapPQBuckets;
 
 /** Performs a timing test on three different set implementations.
  *  @author Neil Kulkarni adapted from Josh Hug, Brendan Hu

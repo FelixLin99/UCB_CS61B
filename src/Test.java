@@ -12,14 +12,10 @@ import java.util.Stack;
  */
 public class Test {
     public static void main(String[] args) {
-        LinkedList<String> llst = new LinkedList<>();
-        Stack<String> strings = new Stack<>();
-        llst.add("1");
-        llst.add("2");
-        llst.add("3");
-        System.out.println(llst.pop());
-        System.out.println(llst.toString());
-        System.out.println(llst.removeLast());
-        System.out.println(llst.toString());
+        LinkedList<String>[] linkedLists = new LinkedList[5];
+        linkedLists[0] = new LinkedList<String>();
+        for (String i : linkedLists[0]){
+            System.out.println(i);
+        }
     }
 }
