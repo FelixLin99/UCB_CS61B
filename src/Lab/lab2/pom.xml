@@ -11,6 +11,12 @@
         <relativePath>../library-sp21/javalib/masterpom.xml</relativePath>
     </parent>
 
+    /** 你好FelixLin， 我在一亩三分地上看到你，最近也在学习这门课程。 
+
+    我在运行的时候IntelliJ里面总是显示MasterPom not found; 1.0 SNAPSHOT not found, 好像需要安装snapshot，但是不是该校学生似乎是无法安装snaps-sp21-s***的，请问你是如何解决的， 感谢解答。
+
+    祝好，*/
+         
     <groupId>CS61B</groupId>
     <artifactId>lab2</artifactId>
     <version>1.0-SNAPSHOT</version>
